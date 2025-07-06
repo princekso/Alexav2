@@ -43,7 +43,7 @@ async def init():
         await Anony.stream_call("https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4")
     except NoActiveGroupCall:
         LOGGER("AnonXMusic").error(
-            "Please turn on the videochat of your log group\channel.\n\nStopping Bot..."
+            "Please turn on the videochat of your log group/channel.\n\nStopping Bot..."
         )
         exit()
     except:
@@ -59,4 +59,22 @@ async def init():
 
 
 if __name__ == "__main__":
+    # 🔧 Render Free Plan Port Bind Fix (Flask dummy server)
+    import threading
+    from flask import Flask
+    import os
+
+    app2 = Flask(__name__)
+
+    @app2.route('/')
+    def home():
+        return "Alexa Music Bot is Running on Render Free Plan!"
+
+    def run():
+        port = int(os.environ.get("PORT", 10000))
+        app2.run(host="0.0.0.0", port=port)
+
+    threading.Thread(target=run).start()
+
+    # 🔁 Start the Music Bot
     asyncio.get_event_loop().run_until_complete(init())
